@@ -1,5 +1,5 @@
 ---
-- name: install and configure mysql
+- name: install and configure db servers
   hosts: db_servers
   remote_user: '{{ user }}'
   sudo: yes
@@ -7,7 +7,7 @@
   roles:
     - db
 
-- name: install and configure webservers and application
+- name: install and configure web servers and application
   hosts: web_servers
   remote_user: '{{ user }}'
   sudo: yes
