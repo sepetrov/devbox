@@ -1,0 +1,5 @@
+---
+# TODO
+- name: log deployment start
+  shell: echo `date` > ~/ansible.log
+  tags: deploy

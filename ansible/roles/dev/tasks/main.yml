@@ -1,0 +1,57 @@
+---
+- name: install packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - curl
+    - git
+    - htop
+    - tmux
+    - vim
+    - wget
+  tags: dev_tools
+
+- name: create vim autoload directory
+  file:  path=~{{ user }}/.vim/autoload state=directory owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: create vim bundle directory
+  file:  path=~{{ user }}/.vim/bundle state=directory owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: install pathogen
+  get_url: url=https://tpo.pe/pathogen.vim dest=~{{ user }}/.vim/autoload/pathogen.vim owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: install vim-sensible
+  git: repo=https://github.com/tpope/vim-sensible.git dest=~{{ user }}/.vim/bundle/vim-sensible
+  tags: dev_tools
+
+- name: install nerdtree
+  git: repo=https://github.com/scrooloose/nerdtree.git dest=~{{ user }}/.vim/bundle/nerdtree
+  tags: dev_tools
+
+- name: configure vim
+  template: src=../templates/vimrc.j2 dest=~{{ user }}/.vimrc owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: configure git
+  template: src=../templates/gitconfig.j2 dest=~{{ user }}/.gitconfig owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: configure prompt
+  lineinfile: dest=~{{ user }}/.bashrc regexp='^#force_color_prompt=yes' line='force_color_prompt=yes'
+  tags: dev_tools
+
+- name: create www directory
+  file: path=/var/www state=directory
+
+- name: install adminer
+  get_url: url=https://www.adminer.org/latest-mysql-en.php dest=/var/www/index.php
+
+- name: configure adminer
+  template: src=../templates/adminer.nginx.j2 dest=/etc/nginx/sites-available/adminer
+
+- name: enable adminer
+  file: src=/etc/nginx/sites-available/adminer dest=/etc/nginx/sites-enabled/default state=link
+  notify:
+    - restart nginx

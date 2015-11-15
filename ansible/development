@@ -1,0 +1,9 @@
+[db_servers]
+default ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+
+[web_servers]
+default ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222
+
+[all_groups:children]
+db_servers
+web_servers

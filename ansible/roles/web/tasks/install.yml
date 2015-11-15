@@ -1,0 +1,31 @@
+---
+- name: install ansible dependencies
+  apt: name=python-apt state=latest
+  tags: install
+
+- name: add php repository
+  apt_repository:  repo='ppa:ondrej/php5-5.6'
+  tags: install
+
+- name: add nginx repository
+  apt_repository: repo='ppa:nginx/stable'
+  tags: install
+
+- name: install packages
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - git
+    - php5
+    - php5-cli
+    - php5-apcu
+    - php5-curl
+    - php5-intl
+    - php5-mysqlnd
+    - php5-sqlite
+    - php5-fpm
+    - nginx
+  tags: install
+
+- name: ensure nginx is running
+  service: name=nginx state=started enabled=yes
+  tags: install

@@ -1,0 +1,5 @@
+---
+web_name: devbox
+web_server_name: devbox
+web_port: 80
+web_root: /var/www/devbox/public

@@ -1,0 +1,28 @@
+---
+- name: install ansible dependencies
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - python-apt
+    - python-mysqldb
+
+- name: add mysql repository
+  apt_repository: repo='deb http://ppa.launchpad.net/ondrej/mysql-5.6/ubuntu trusty main' state=present
+
+- name: install packages
+  apt: name={{ item }} state=latest update_cache=yes force=yes
+  with_items:
+    - mysql-server
+
+- name: configure mysql
+  template: src=my.cnf.j2 dest=/etc/my.cnf
+  notify: 
+    - restart mysql
+
+- name: start mysql
+  service: name=mysql state=started enabled=yes
+
+- name: create database
+  mysql_db: name={{ db_name }} state=present
+
+- name: create database user
+  mysql_user: name={{ db_user }} password={{ db_password }} priv=*.*:ALL host='%' state=present

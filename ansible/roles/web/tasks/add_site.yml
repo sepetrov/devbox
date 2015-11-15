@@ -1,0 +1,16 @@
+- name: update hosts file
+  lineinfile: dest=/etc/hosts line='127.0.0.1 {{ web_server_name }} www.{{ web_server_name }}'
+  tags: add_site
+
+- name: add virtual host configuration
+  template: src=nginx_server.j2 dest=/etc/nginx/sites-available/{{ web_name }} owner=root group=root mode=0644
+  tags: add_site
+
+- name: enable virtual host
+  file: src=/etc/nginx/sites-available/{{ web_name }} dest=/etc/nginx/sites-enabled/{{ web_name }} state=link
+  tags: add_site
+
+- name: reload nginx service
+  service: name=nginx state=reloaded
+  tags: add_site
+

@@ -1,0 +1,17 @@
+---
+- name: install and configure mysql
+  hosts: db_servers
+  remote_user: '{{ user }}'
+  sudo: yes
+
+  roles:
+    - db
+
+- name: install and configure webservers and application
+  hosts: web_servers
+  remote_user: '{{ user }}'
+  sudo: yes
+
+  roles:
+    - web
+    - dev

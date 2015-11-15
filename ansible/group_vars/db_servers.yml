@@ -1,0 +1,5 @@
+---
+db_port: 3306
+db_name: devbox
+db_user: devbox
+db_password: devbox

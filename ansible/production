@@ -1,0 +1,5 @@
+[db_servers]
+devbox
+
+[web_servers]
+devbox
