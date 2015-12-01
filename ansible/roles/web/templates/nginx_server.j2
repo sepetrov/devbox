@@ -1,6 +1,11 @@
 server {
+    server_name www.{{ web_server_name }};
+    return 301 $scheme://{{ web_server_name }}$uri?$args;
+}
+
+server {
     listen {{ web_port|default(80) }};
-    server_name {{ web_server_name }} www.{{ web_server_name }};
+    server_name {{ web_server_name }};
     root {{ web_root }}/public;
 
     error_log /var/log/nginx/{{ web_name }}.error.log;
