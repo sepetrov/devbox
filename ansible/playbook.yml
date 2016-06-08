@@ -2,7 +2,7 @@
 - name: install and configure db servers
   hosts: db_servers
   remote_user: '{{ user }}'
-  sudo: yes
+  become: yes
 
   roles:
     - db
@@ -10,7 +10,7 @@
 - name: install and configure web servers and application
   hosts: web_servers
   remote_user: '{{ user }}'
-  sudo: yes
+  become: yes
 
   roles:
     - web

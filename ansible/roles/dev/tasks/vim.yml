@@ -1,0 +1,28 @@
+---
+- name: install vim
+  apt: name=vim state=latest
+  tags: dev_tools
+
+- name: create vim autoload directory
+  file: path=~{{ user }}/.vim/autoload state=directory owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: create vim bundle directory
+  file: path=~{{ user }}/.vim/bundle state=directory owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: install pathogen
+  get_url: url=https://tpo.pe/pathogen.vim dest=~{{ user }}/.vim/autoload/pathogen.vim owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: install vim-sensible
+  git: repo=https://github.com/tpope/vim-sensible.git dest=~{{ user }}/.vim/bundle/vim-sensible
+  tags: dev_tools
+
+- name: install nerdtree
+  git: repo=https://github.com/scrooloose/nerdtree.git dest=~{{ user }}/.vim/bundle/nerdtree
+  tags: dev_tools
+
+- name: configure vim
+  template: src=../templates/vimrc.j2 dest=~{{ user }}/.vimrc owner={{ user }} group={{ user }}
+  tags: dev_tools

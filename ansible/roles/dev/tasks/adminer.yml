@@ -1,0 +1,14 @@
+---
+- name: create www directory
+  file: path=/var/www state=directory
+
+- name: install adminer
+  get_url: url=https://www.adminer.org/latest-mysql-en.php dest=/var/www/index.php
+
+- name: configure adminer
+  template: src=../templates/adminer.nginx.j2 dest=/etc/nginx/sites-available/adminer
+
+- name: enable adminer
+  file: src=/etc/nginx/sites-available/adminer dest=/etc/nginx/sites-enabled/default state=link
+  notify:
+    - restart nginx

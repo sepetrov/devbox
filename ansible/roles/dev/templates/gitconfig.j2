@@ -1,5 +1,10 @@
+{% if git_user_email|default(false) and git_user_name|default(false) %}
+[user]
+    email = {{ git_user_email }}
+    name = {{ git_user_name }}
+{% endif %}
 [help]
-    autocorrect = 5
+    autocorrect = 2
 [core]
     editor = vim
     whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol

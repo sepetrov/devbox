@@ -1,0 +1,13 @@
+---
+- name: add aliases
+  lineinfile: dest=~{{ user }}/.bash_alias line={{ item }} create=yes owner={{ user }}
+  with_items:
+    - alias ls='ls -GFh'
+    - alias ll='ls -lsahGF'
+  tags: dev_tools
+
+- name: add prompt configuration
+  template: src=../templates/bash_prompt.j2 dest=~{{ user }}/.bash_prompt owner={{ user }}
+
+- name: enable git prompt
+  lineinfile: dest=~{{ user }}/.bashrc line='[[ -f "$HOME/.bash_prompt" ]] && source "$HOME/.bash_prompt"'

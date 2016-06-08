@@ -1,0 +1,20 @@
+---
+- name: install git
+  apt: name=git state=latest
+  tags: dev_tools
+
+- name: configure git
+  template: src=../templates/gitconfig.j2 dest=~{{ user }}/.gitconfig owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: add global git ignore
+  template: src=../templates/gitignore.j2 dest=~{{ user }}/.gitignore owner={{ user }} group={{ user }}
+  tags: dev_tools
+
+- name: add git completion
+  get_url: url=https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash dest=~{{ user }}/.git-completion.bash
+  tags: dev_tools
+
+- name: add git prompt configuration
+  get_url: url=https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh dest=~{{ user }}/.git-prompt.sh
+  tags: dev_tools
